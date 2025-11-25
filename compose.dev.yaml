@@ -35,9 +35,6 @@ services:
       - ./:/var/www
     networks:
       - laravel-development
-    depends_on:
-      postgres:
-        condition: service_started
 
   workspace:
     build:
@@ -61,18 +58,18 @@ services:
     networks:
       - laravel-development
 
-  postgres:
-    image: postgres:16
-    ports:
-      - "${POSTGRES_PORT:-5432}:5432"
-    environment:
-      - POSTGRES_DB=${DB_DATABASE:-app}
-      - POSTGRES_USER=${DB_USERNAME:-laravel}
-      - POSTGRES_PASSWORD=${DB_PASSWORD:-secret}
-    volumes:
-      - postgres-data-development:/var/lib/postgresql/data
-    networks:
-      - laravel-development
+  # postgres:
+  #   image: postgres:16
+  #   ports:
+  #     - "${POSTGRES_PORT:-5432}:5432"
+  #   environment:
+  #     - POSTGRES_DB=${DB_DATABASE:-app}
+  #     - POSTGRES_USER=${DB_USERNAME:-laravel}
+  #     - POSTGRES_PASSWORD=${DB_PASSWORD:-secret}
+  #   volumes:
+  #     - postgres-data-development:/var/lib/postgresql/data
+  #   networks:
+  #     - laravel-development
 
   redis:
     image: redis:alpine
