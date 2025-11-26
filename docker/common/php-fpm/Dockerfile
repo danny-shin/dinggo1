@@ -1,5 +1,5 @@
 # Builds a dev-only layer on top of the production image
-FROM php:8.2-fpm AS development
+FROM php:8.3-fpm AS development
 
 # Use ARGs to define environment variables passed from the Docker build command or Docker Compose.
 ARG XDEBUG_ENABLED=true
