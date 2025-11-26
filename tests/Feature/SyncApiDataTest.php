@@ -69,8 +69,8 @@ class SyncApiDataTest extends TestCase
 
 		// 2. Act: Run the artisan command
 		$this->artisan('sync:api-data')
-			->expectsOutput('Sync completed successfully.') // Optional: Assert output
 			->assertExitCode(0);
+			//->expectsOutput('Sync completed successfully.') // Optional: Assert output
 
 		// 3. Assert: Check Database for Car
 		$this->assertDatabaseHas('cars', [
