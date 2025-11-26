@@ -35,9 +35,9 @@ services:
       - ./:/var/www
     networks:
       - laravel-development
-    depends_on:
-      postgres:
-        condition: service_started
+    # depends_on:
+    #   postgres:
+    #     condition: service_started
 
   workspace:
     build:
