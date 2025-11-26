@@ -10,93 +10,93 @@ use Illuminate\Validation\Rules;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index(Request $request)
-    {
-        $search = $request->get('search', '');
-        
-        $users = User::query()
-            ->when($search, function ($query, $search) {
-                $query->where('name', 'like', "%{$search}%")
-                    ->orWhere('email', 'like', "%{$search}%");
-            })
-            ->latest()
-            ->paginate(10)
-            ->withQueryString();
+	/**
+	 * Display a listing of the resource.
+	 */
+	public function index(Request $request)
+	{
+		$search = $request->get('search', '');
 
-        return Inertia::render('Users/Index', [
-            'users' => $users,
-            'filters' => ['search' => $search],
-        ]);
-    }
+		$users = User::query()
+			->when($search, function ($query, $search) {
+				$query->where('name', 'like', "%{$search}%")
+					->orWhere('email', 'like', "%{$search}%");
+			})
+			->latest()
+			->paginate(10)
+			->withQueryString();
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return Inertia::render('Users/Create');
-    }
+		return Inertia::render('Users/Index', [
+			'users' => $users,
+			'filters' => ['search' => $search],
+		]);
+	}
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
+	/**
+	 * Show the form for creating a new resource.
+	 */
+	public function create()
+	{
+		return Inertia::render('Users/Create');
+	}
 
-        User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+	/**
+	 * Store a newly created resource in storage.
+	 */
+	public function store(Request $request)
+	{
+		$request->validate([
+			'name' => 'required|string|max:255',
+			'email' => 'required|string|lowercase|email|max:255|unique:' . User::class,
+			'password' => ['required', 'confirmed', Rules\Password::defaults()],
+		]);
 
-        return redirect()->route('users.index')->with('success', 'User created successfully.');
-    }
+		User::create([
+			'name' => $request->name,
+			'email' => $request->email,
+			'password' => Hash::make($request->password),
+		]);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(User $user)
-    {
-        return Inertia::render('Users/Edit', [
-            'user' => $user,
-        ]);
-    }
+		return redirect()->route('users.index')->with('success', 'User created successfully.');
+	}
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, User $user)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|lowercase|email|max:255|unique:users,email,'.$user->id,
-            'password' => ['nullable', 'confirmed', Rules\Password::defaults()],
-        ]);
+	/**
+	 * Show the form for editing the specified resource.
+	 */
+	public function edit(User $user)
+	{
+		return Inertia::render('Users/Edit', [
+			'user' => $user,
+		]);
+	}
 
-        $user->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            ...($request->password ? ['password' => Hash::make($request->password)] : []),
-        ]);
+	/**
+	 * Update the specified resource in storage.
+	 */
+	public function update(Request $request, User $user)
+	{
+		$request->validate([
+			'name' => 'required|string|max:255',
+			'email' => 'required|string|lowercase|email|max:255|unique:users,email,' . $user->id,
+			'password' => ['nullable', 'confirmed', Rules\Password::defaults()],
+		]);
 
-        return redirect()->route('users.index')->with('success', 'User updated successfully.');
-    }
+		$user->update([
+			'name' => $request->name,
+			'email' => $request->email,
+			...($request->password ? ['password' => Hash::make($request->password)] : []),
+		]);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(User $user)
-    {
-        $user->delete();
+		return redirect()->route('users.index')->with('success', 'User updated successfully.');
+	}
 
-        return redirect()->route('users.index')->with('success', 'User deleted successfully.');
-    }
+	/**
+	 * Remove the specified resource from storage.
+	 */
+	public function destroy(User $user)
+	{
+		$user->delete();
+
+		return redirect()->route('users.index')->with('success', 'User deleted successfully.');
+	}
 }

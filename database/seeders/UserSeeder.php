@@ -26,6 +26,6 @@ class UserSeeder extends Seeder
         ]);
 
         // Create 50 mock users
-        User::factory()->count(50)->create();
+        // User::factory()->count(50)->create();
     }
 }
