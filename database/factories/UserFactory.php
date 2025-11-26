@@ -23,6 +23,7 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        static::$password = '123456789';
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),

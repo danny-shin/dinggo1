@@ -61,18 +61,18 @@ services:
     networks:
       - laravel-development
 
-  postgres:
-    image: postgres:16
-    ports:
-      - "${POSTGRES_PORT:-5432}:5432"
-    environment:
-      - POSTGRES_DB=${DB_DATABASE:-app}
-      - POSTGRES_USER=${DB_USERNAME:-postgres}
-      - POSTGRES_PASSWORD=${DB_PASSWORD:-secret}
-    volumes:
-      - /data:/var/lib/postgresql/data
-    networks:
-      - laravel-development
+  # postgres:
+  #   image: postgres:16
+  #   ports:
+  #     - "${POSTGRES_PORT:-5432}:5432"
+  #   environment:
+  #     - POSTGRES_DB=${DB_DATABASE:-app}
+  #     - POSTGRES_USER=${DB_USERNAME:-postgres}
+  #     - POSTGRES_PASSWORD=${DB_PASSWORD:-secret}
+  #   volumes:
+  #     - ./data:/var/lib/postgresql/data
+  #   networks:
+  #     - laravel-development
 
   redis:
     image: redis:alpine
@@ -82,5 +82,5 @@ services:
 networks:
   laravel-development:
 
-volumes:
-  postgres-data-development:
+# volumes:
+#   postgres-data-development:
