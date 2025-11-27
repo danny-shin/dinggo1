@@ -1,11 +1,15 @@
-//import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import AdminLayout from '@/Layouts/AdminLayout';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 
-// export default function Index({ auth, users, filters }) {
-export default function Dashboard({ auth }) {
+export default function Dashboard() {
 	return (
-		<AdminLayout user={auth.user}>
+		<AuthenticatedLayout
+			header={
+				<h2 className="text-xl font-semibold leading-tight text-gray-800">
+					Dashboard
+				</h2>
+			}
+		>
 			<Head title="Dashboard" />
 
 			<div className="py-12">
@@ -17,6 +21,6 @@ export default function Dashboard({ auth }) {
 					</div>
 				</div>
 			</div>
-		</AdminLayout>
+		</AuthenticatedLayout>
 	);
 }

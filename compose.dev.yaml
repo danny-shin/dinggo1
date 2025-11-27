@@ -58,6 +58,8 @@ services:
       - .env
     volumes:
       - ./:/var/www
+    ports:
+      - "5173:5173"
     networks:
       - laravel-development
 
