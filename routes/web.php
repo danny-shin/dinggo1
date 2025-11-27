@@ -14,11 +14,11 @@ use Inertia\Inertia;
 // 	]);
 // });
 
-Route::redirect('/', '/dashboard');
+Route::redirect('/', '/sync-data');
 
-Route::get('/dashboard', function () {
-	return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/sync-data', function () {
+	return Inertia::render('SyncData');
+})->middleware(['auth', 'verified'])->name('sync-data');
 
 Route::middleware('auth')->group(function () {
 	Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -33,6 +33,9 @@ Route::middleware('auth')->group(function () {
 
 	// Quotes CRUD routes
 	Route::resource('quotes', \App\Http\Controllers\QuoteController::class)->only(['index', 'show']);
+
+	// Sync API data route
+	Route::post('/sync-data', [\App\Http\Controllers\SyncApiController::class, 'sync'])->name('sync.data');
 });
 
 require __DIR__ . '/auth.php';

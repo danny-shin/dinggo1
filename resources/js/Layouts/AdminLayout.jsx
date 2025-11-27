@@ -13,6 +13,7 @@ import { useState } from 'react';
 import Dropdown from '@/Components/Dropdown';
 
 const sidebarItems = [
+	{ name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
 	{ name: 'Cars', href: '/cars', icon: Car },
 	{ name: 'Quotes', href: '/quotes', icon: FileText },
 	{ name: 'Users', href: '/users', icon: Users },

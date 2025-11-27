@@ -66,7 +66,7 @@ export default function Show({ auth, car }) {
 						</CardContent>
 					</Card>
 
-					<Card className="md:col-span-2">
+					<Card className="mt-3 md:col-span-2">
 						<CardHeader>
 							<CardTitle>Linked Quotes</CardTitle>
 							<CardDescription>Quotes associated with this car</CardDescription>
