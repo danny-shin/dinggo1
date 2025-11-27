@@ -4,8 +4,10 @@
 /.vscode
 /.idea
 /storage/*.key
+/bootstrap/cache/*.php
 /storage/app/public/*
 !/storage/app/public/.gitignore
+/public/hot
 /storage/framework/cache/*
 !/storage/framework/cache/.gitignore
 /storage/framework/sessions/*

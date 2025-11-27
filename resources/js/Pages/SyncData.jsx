@@ -13,6 +13,7 @@ import {
 } from '@/Components/ui/table';
 import { useState } from 'react';
 import { RefreshCw } from 'lucide-react';
+import axios from 'axios';
 
 // export default function Index({ auth, users, filters }) {
 export default function SyncData({ auth }) {
@@ -25,15 +26,8 @@ export default function SyncData({ auth }) {
 		setSyncError(null);
 
 		try {
-			const response = await fetch(route('sync.data'), {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-					'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-				},
-			});
-
-			const data = await response.json();
+			const response = await axios.post(route('sync.data'));
+			const data = response.data;
 
 			if (data.success) {
 				setSyncStats(data.stats);
@@ -41,7 +35,7 @@ export default function SyncData({ auth }) {
 				setSyncError(data.message);
 			}
 		} catch (error) {
-			setSyncError('Failed to sync data: ' + error.message);
+			setSyncError('Failed to sync data: ' + (error.response?.data?.message || error.message));
 		} finally {
 			setSyncing(false);
 		}

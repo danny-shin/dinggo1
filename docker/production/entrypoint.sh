@@ -1,6 +1,9 @@
 #!/bin/sh
 set -e
 
+# Copy public assets to shared volume
+cp -a /var/www/html/public/. /var/www/html/public_shared/
+
 php artisan migrate --force
 php artisan db:seed --force
 php artisan sync:api-data
