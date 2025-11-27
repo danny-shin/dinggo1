@@ -45,8 +45,7 @@ export default function AdminLayout({ children, user }) {
 					{/* Logo */}
 					<div className="flex h-16 items-center justify-between border-b px-6">
 						<Link href="/sync-data" className="flex items-center gap-2 font-semibold text-lg">
-							<LayoutDashboard className="h-6 w-6" />
-							<span><DingGoLogo width="100" /> Admin</span>
+							<DingGoLogo width="80" /> <span>Admin</span>
 						</Link>
 						<button
 							className="lg:hidden"
