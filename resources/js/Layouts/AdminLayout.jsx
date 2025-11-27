@@ -7,15 +7,16 @@ import {
 	Menu,
 	X,
 	Car,
-	FileText
+	FileText,
+	RefreshCw,
 } from 'lucide-react';
 import { useState } from 'react';
 import Dropdown from '@/Components/Dropdown';
 
 const sidebarItems = [
-	{ name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
 	{ name: 'Cars', href: '/cars', icon: Car },
 	{ name: 'Quotes', href: '/quotes', icon: FileText },
+	{ name: 'Sync Data', href: '/sync-data', icon: RefreshCw },
 	{ name: 'Users', href: '/users', icon: Users },
 ];
 
@@ -42,7 +43,7 @@ export default function AdminLayout({ children, user }) {
 				<div className="flex h-full flex-col">
 					{/* Logo */}
 					<div className="flex h-16 items-center justify-between border-b px-6">
-						<Link href="/dashboard" className="flex items-center gap-2 font-semibold text-lg">
+						<Link href="/sync-data" className="flex items-center gap-2 font-semibold text-lg">
 							<LayoutDashboard className="h-6 w-6" />
 							<span>DingGo Admin</span>
 						</Link>

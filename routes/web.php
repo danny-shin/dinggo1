@@ -14,7 +14,7 @@ use Inertia\Inertia;
 // 	]);
 // });
 
-Route::redirect('/', '/sync-data');
+Route::redirect('/', '/cars');
 
 Route::get('/sync-data', function () {
 	return Inertia::render('SyncData');
