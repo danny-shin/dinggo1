@@ -26,8 +26,8 @@ export default function Show({ auth, quote }) {
 					</div>
 				</div>
 
-				<div className="grid gap-6 md:grid-cols-2">
-					<Card>
+				<div className="grid gap-5 md:grid-cols-2">
+					<Card className="md:col-span-2">
 						<CardHeader>
 							<CardTitle>Quote Details</CardTitle>
 						</CardHeader>
