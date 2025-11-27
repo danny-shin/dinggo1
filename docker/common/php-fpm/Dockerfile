@@ -64,7 +64,7 @@ RUN sed -i "s/user = www-data/user = www/g" /usr/local/etc/php-fpm.d/www.conf &&
 
 # Set the working directory
 WORKDIR /var/www
-
+COPY .env.dev .env
 # Copy the entrypoint script
 COPY ./docker/development/php-fpm/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh

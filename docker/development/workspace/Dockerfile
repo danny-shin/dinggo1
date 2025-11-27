@@ -80,6 +80,7 @@ RUN echo 'export NVM_DIR="$HOME/.nvm"' >> /home/www/.bashrc && \
 
 # Set the working directory
 WORKDIR /var/www
+COPY .env.dev .env
 
 # Override the entrypoint to avoid the default php entrypoint
 ENTRYPOINT []

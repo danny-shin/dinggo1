@@ -38,18 +38,6 @@ services:
     networks:
       - app-network
 
-  # migration:
-  #   build:
-  #     context: .
-  #     dockerfile: docker/production/Dockerfile
-  #   command: php artisan migrate --force
-  #   env_file:
-  #     - .env.prod
-  #   depends_on:
-  #     - database
-  #   networks:
-  #     - app-network
-
 networks:
   app-network:
     driver: bridge

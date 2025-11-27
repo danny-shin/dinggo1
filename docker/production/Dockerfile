@@ -64,6 +64,7 @@ WORKDIR /var/www/html
 
 # Copy application code
 COPY . .
+COPY .env.prod .env
 COPY --from=vendor /app/vendor/ /var/www/html/vendor/
 COPY --from=frontend /app/public/build/ /var/www/html/public/build/
 

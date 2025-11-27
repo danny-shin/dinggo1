@@ -5,8 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 class Car extends Model
 {
+	use HasFactory;
 	// We can use standard 'id', so we don't need to specify primaryKey or incrementing=false
 
 	protected $fillable = [
