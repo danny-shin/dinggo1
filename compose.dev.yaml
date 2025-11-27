@@ -55,7 +55,7 @@ services:
     tty: true
     stdin_open: true
     env_file:
-      - .env
+      - .env.dev
     volumes:
       - ./:/var/www
     ports:
