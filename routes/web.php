@@ -27,6 +27,12 @@ Route::middleware('auth')->group(function () {
 
 	// Users CRUD routes
 	Route::resource('users', \App\Http\Controllers\UserController::class);
+
+	// Cars CRUD routes
+	Route::resource('cars', \App\Http\Controllers\CarController::class)->only(['index', 'show']);
+
+	// Quotes CRUD routes
+	Route::resource('quotes', \App\Http\Controllers\QuoteController::class)->only(['index', 'show']);
 });
 
 require __DIR__ . '/auth.php';

@@ -5,15 +5,17 @@ import {
 	Users,
 	Settings,
 	Menu,
-	X
+	X,
+	Car,
+	FileText
 } from 'lucide-react';
 import { useState } from 'react';
 import Dropdown from '@/Components/Dropdown';
 
 const sidebarItems = [
-	{ name: 'Dashboard-1', href: '/dashboard', icon: LayoutDashboard },
-	{ name: 'Users-1', href: '/users', icon: Users },
-	{ name: 'Settings-1', href: '/settings', icon: Settings },
+	{ name: 'Cars', href: '/cars', icon: Car },
+	{ name: 'Quotes', href: '/quotes', icon: FileText },
+	{ name: 'Users', href: '/users', icon: Users },
 ];
 
 export default function AdminLayout({ children, user }) {
@@ -76,7 +78,7 @@ export default function AdminLayout({ children, user }) {
 					</nav>
 
 					{/* User section */}
-					<div className="border-t p-4">
+					{/* <div className="border-t p-4">
 						<div className="flex items-center gap-3">
 							<div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground">
 								{user?.name?.[0]?.toUpperCase() || '?'}
@@ -86,7 +88,7 @@ export default function AdminLayout({ children, user }) {
 								<p className="text-xs text-muted-foreground truncate">{user?.email}</p>
 							</div>
 						</div>
-					</div>
+					</div> */}
 				</div>
 			</aside>
 
@@ -111,7 +113,17 @@ export default function AdminLayout({ children, user }) {
 										type="button"
 										className="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none"
 									>
-										{user?.name}
+										{/* {user?.name} */}
+
+										<div className="flex items-center gap-3">
+											<div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground">
+												{user?.name?.[0]?.toUpperCase() || '?'}
+											</div>
+											<div className="flex-1 overflow-hidden">
+												<p className="text-sm font-medium truncate">{user?.name}</p>
+												<p className="text-xs text-muted-foreground truncate">{user?.email}</p>
+											</div>
+										</div>
 
 										<svg
 											className="-me-0.5 ms-2 h-4 w-4"
