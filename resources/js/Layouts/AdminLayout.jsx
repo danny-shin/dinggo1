@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { useState } from 'react';
 import Dropdown from '@/Components/Dropdown';
+import DingGoLogo from '@/Components/DingGoLogo';
 
 const sidebarItems = [
 	{ name: 'Cars', href: '/cars', icon: Car },
@@ -45,7 +46,7 @@ export default function AdminLayout({ children, user }) {
 					<div className="flex h-16 items-center justify-between border-b px-6">
 						<Link href="/sync-data" className="flex items-center gap-2 font-semibold text-lg">
 							<LayoutDashboard className="h-6 w-6" />
-							<span>DingGo Admin</span>
+							<span><DingGoLogo width="100" /> Admin</span>
 						</Link>
 						<button
 							className="lg:hidden"
