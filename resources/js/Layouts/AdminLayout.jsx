@@ -111,8 +111,6 @@ export default function AdminLayout({ children, user }) {
 
 						<div className="flex items-center gap-4">
 
-							<ThemeToggle className="mr-4" />
-
 							{/* User Dropdown  */}
 							<div id="user-top-btn" className="ml-4 flex items-center md:ml-6">
 								<Dropdown>
@@ -164,6 +162,8 @@ export default function AdminLayout({ children, user }) {
 									</Dropdown.Content>
 								</Dropdown>
 							</div>
+
+							<ThemeToggle className="mr-2" />
 						</div>
 					</header>
 
