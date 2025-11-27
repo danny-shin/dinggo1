@@ -44,8 +44,9 @@ export default function AdminLayout({ children, user }) {
 				<div className="flex h-full flex-col">
 					{/* Logo */}
 					<div className="flex h-16 items-center justify-between border-b px-6">
-						<Link href="/sync-data" className="flex items-center gap-2 font-semibold text-lg">
-							<DingGoLogo width="80" /> <span>Admin</span>
+						<Link href="/" className="flex items-center gap-2 font-semibold text-lg">
+							<DingGoLogo width="80" />
+							<span className='ml-1 -mt-[6px] text-2xl font-[950] text-gray-600'>Admin</span>
 						</Link>
 						<button
 							className="lg:hidden"
