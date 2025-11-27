@@ -41,7 +41,7 @@ class CarTest extends TestCase
 		);
 	}
 
-	public function test_cars_show_displayed()
+	public function test_cars_show_displayed_with_quotes()
 	{
 		$user = User::factory()->create();
 		$car = Car::factory()->create();

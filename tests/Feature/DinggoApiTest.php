@@ -8,8 +8,8 @@ use PHPUnit\Framework\Attributes\Depends;
 
 class DinggoApiTest extends TestCase
 {
-	protected string $baseUrl; 		
-	protected array $credentials; 
+	protected string $baseUrl;
+	protected array $credentials;
 
 	// Setup is run before every single test method.
 	protected function setUp(): void
