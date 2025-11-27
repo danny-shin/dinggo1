@@ -18,9 +18,9 @@ class QuoteController extends Controller
 		$quotes = Quote::query()
 			->with('car')
 			->when($search, function ($query, $search) {
-				$query->where('repairer', 'like', "%{$search}%")
+				$query->where('repairer', 'ilike', "%{$search}%")
 					->orWhereHas('car', function ($q) use ($search) {
-						$q->where('license_plate', 'like', "%{$search}%");
+						$q->where('license_plate', 'ilike', "%{$search}%");
 					});
 			})
 			->latest()

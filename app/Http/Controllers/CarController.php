@@ -17,10 +17,10 @@ class CarController extends Controller
 
 		$cars = Car::query()
 			->when($search, function ($query, $search) {
-				$query->where('license_plate', 'like', "%{$search}%")
-					->orWhere('make', 'like', "%{$search}%")
-					->orWhere('model', 'like', "%{$search}%")
-					->orWhere('vin', 'like', "%{$search}%");
+				$query->where('license_plate', 'ilike', "%{$search}%")
+					->orWhere('make', 'ilike', "%{$search}%")
+					->orWhere('model', 'ilike', "%{$search}%")
+					->orWhere('vin', 'ilike', "%{$search}%");
 			})
 			->latest()
 			->paginate(10)
