@@ -35,6 +35,7 @@ services:
       - ./:/var/www
     networks:
       - laravel-development
+    command: ["/bin/bash", "-c", "source /home/www/.nvm/nvm.sh && npm install && npm run dev"]
     # depends_on:
     #   postgres:
     #     condition: service_started
