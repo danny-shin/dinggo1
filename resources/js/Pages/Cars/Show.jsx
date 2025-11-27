@@ -1,7 +1,7 @@
 import AdminLayout from '@/Layouts/AdminLayout';
 import { Head, Link } from '@inertiajs/react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/Components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/Components/ui/card';
 import {
 	Table,
 	TableBody,
@@ -9,7 +9,7 @@ import {
 	TableHead,
 	TableHeader,
 	TableRow,
-} from '@/components/ui/table';
+} from '@/Components/ui/table';
 import { ArrowLeft, ExternalLink } from 'lucide-react';
 
 export default function Show({ auth, car }) {

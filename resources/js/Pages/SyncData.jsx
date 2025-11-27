@@ -1,8 +1,8 @@
 //import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import AdminLayout from '@/Layouts/AdminLayout';
 import { Head, router } from '@inertiajs/react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/Components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/Components/ui/card';
 import {
 	Table,
 	TableBody,
@@ -10,7 +10,7 @@ import {
 	TableHead,
 	TableHeader,
 	TableRow,
-} from '@/components/ui/table';
+} from '@/Components/ui/table';
 import { useState } from 'react';
 import { RefreshCw } from 'lucide-react';
 

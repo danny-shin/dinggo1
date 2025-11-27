@@ -28,6 +28,7 @@ COPY package.json package-lock.json ./
 RUN npm ci
 
 COPY . .
+COPY .env.prod .env
 RUN npm run build
 
 # 3. Final Stage
