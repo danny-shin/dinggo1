@@ -3,7 +3,8 @@ $REGION = "ap-southeast-2" # Must match your terra/variables.tf
 $ACCOUNT_ID = aws sts get-caller-identity --query Account --output text
 $REPO_NAME_APP = "dinggo-app"
 $REPO_NAME_NGINX = "dinggo-nginx"
-$IMAGE_TAG = "latest"
+$TIMESTAMP = Get-Date -Format "yyyyMMdd-HHmm"
+$IMAGE_TAG = "v-$TIMESTAMP"
 
 $ECR_URL = "$ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com"
 $FULL_IMAGE_NAME_APP = "${ECR_URL}/${REPO_NAME_APP}:${IMAGE_TAG}"
@@ -26,13 +27,13 @@ docker build -t $REPO_NAME_APP -f docker/production/Dockerfile .
 if ($LASTEXITCODE -ne 0) { Write-Error "App Build failed!"; exit 1 }
 
 Write-Host "`n[3/5] Building Nginx Image..." -ForegroundColor Yellow
-docker build -t $REPO_NAME_NGINX -f docker/production/nginx/Dockerfile ./docker/production/nginx
+docker build -t $REPO_NAME_NGINX -f docker/production/nginx/Dockerfile .
 if ($LASTEXITCODE -ne 0) { Write-Error "Nginx Build failed!"; exit 1 }
 
 # 4. Tag Images
 Write-Host "`n[4/5] Tagging Images..." -ForegroundColor Yellow
-docker tag "${REPO_NAME_APP}:${IMAGE_TAG}" $FULL_IMAGE_NAME_APP
-docker tag "${REPO_NAME_NGINX}:${IMAGE_TAG}" $FULL_IMAGE_NAME_NGINX
+docker tag "${REPO_NAME_APP}:latest" $FULL_IMAGE_NAME_APP
+docker tag "${REPO_NAME_NGINX}:latest" $FULL_IMAGE_NAME_NGINX
 
 # 5. Push Images
 Write-Host "`n[5/5] Pushing to ECR..." -ForegroundColor Yellow
