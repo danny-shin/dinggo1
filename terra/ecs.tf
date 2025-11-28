@@ -148,7 +148,7 @@ resource "aws_ecs_task_definition" "app" {
   container_definitions = jsonencode([
     {
       name      = "app"
-      image     = "your-docker-image-url:latest" # Placeholder
+      image     = "940663608218.dkr.ecr.ap-southeast-2.amazonaws.com/dinggo-app:latest"
       cpu       = 128
       memory    = 256
       essential = true

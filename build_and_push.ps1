@@ -5,7 +5,7 @@ $REPO_NAME = "dinggo-app" # Must match the name in terra/ecr.tf
 $IMAGE_TAG = "latest"
 
 $ECR_URL = "$ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com"
-$FULL_IMAGE_NAME = "$ECR_URL/$REPO_NAME:$IMAGE_TAG"
+$FULL_IMAGE_NAME = "${ECR_URL}/${REPO_NAME}:${IMAGE_TAG}"
 
 Write-Host "--- Starting Build & Push Process ---" -ForegroundColor Cyan
 Write-Host "Region: $REGION"
