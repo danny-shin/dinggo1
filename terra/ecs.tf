@@ -177,7 +177,7 @@ resource "aws_ecs_task_definition" "app" {
     },
     {
       name      = "web"
-      image     = "nginx:alpine" # You might need a custom nginx image with config
+      image     = "940663608218.dkr.ecr.ap-southeast-2.amazonaws.com/dinggo-nginx:latest" # Custom Nginx with config
       cpu       = 128
       memory    = 128
       essential = true
