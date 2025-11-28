@@ -23,11 +23,11 @@ if ($LASTEXITCODE -ne 0) { Write-Error "Login failed!"; exit 1 }
 
 # 3. Build Docker Images
 Write-Host "`n[2/5] Building App Image..." -ForegroundColor Yellow
-docker build -t $REPO_NAME_APP -f docker/production/Dockerfile .
+docker build -t $REPO_NAME_APP -f docker/aws/app/Dockerfile .
 if ($LASTEXITCODE -ne 0) { Write-Error "App Build failed!"; exit 1 }
 
 Write-Host "`n[3/5] Building Nginx Image..." -ForegroundColor Yellow
-docker build -t $REPO_NAME_NGINX -f docker/production/nginx/Dockerfile .
+docker build -t $REPO_NAME_NGINX -f docker/aws/nginx/Dockerfile .
 if ($LASTEXITCODE -ne 0) { Write-Error "Nginx Build failed!"; exit 1 }
 
 # 4. Tag Images

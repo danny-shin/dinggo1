@@ -1,7 +1,5 @@
 FROM nginx:alpine
 
-FROM nginx:alpine
-
 # Remove default config and html
 RUN rm -rf /etc/nginx/conf.d/*
 RUN rm -rf /usr/share/nginx/html/*
