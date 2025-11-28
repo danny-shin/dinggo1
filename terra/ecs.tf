@@ -148,7 +148,7 @@ resource "aws_ecs_task_definition" "app" {
   container_definitions = jsonencode([
     {
       name      = "app"
-      image     = "940663608218.dkr.ecr.ap-southeast-2.amazonaws.com/dinggo-app:latest"
+      image     = "940663608218.dkr.ecr.ap-southeast-2.amazonaws.com/dinggo-app:v-20251128-1758"
       cpu       = 128
       memory    = 256
       essential = true
@@ -177,7 +177,7 @@ resource "aws_ecs_task_definition" "app" {
     },
     {
       name      = "web"
-      image     = "940663608218.dkr.ecr.ap-southeast-2.amazonaws.com/dinggo-nginx:latest" # Custom Nginx with config
+      image     = "940663608218.dkr.ecr.ap-southeast-2.amazonaws.com/dinggo-nginx:v-20251128-1758"
       cpu       = 128
       memory    = 128
       essential = true
