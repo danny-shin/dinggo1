@@ -33,7 +33,6 @@ export default function AdminLayout({ children, user }) {
 				return 'Prod';
 			default:
 				return env
-			//return env.charAt(0).toUpperCase() + env.slice(1);
 		}
 	};
 
