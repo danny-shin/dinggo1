@@ -28,9 +28,9 @@ export default function AdminLayout({ children, user }) {
 	const getEnvDisplay = (env) => {
 		switch (env) {
 			case 'local':
-				return 'Development';
+				return 'Dev';
 			case 'production':
-				return 'Production';
+				return 'Prod';
 			default:
 				return env
 			//return env.charAt(0).toUpperCase() + env.slice(1);
