@@ -85,6 +85,7 @@ class SyncApiData extends Command
 				$this->stats['cars']['inserted']++;
 				$car->save();
 			} elseif ($car->isDirty()) {
+				// isDirty() method checks if any attributes of the model have been changed
 				$this->stats['cars']['updated']++;
 				$car->save();
 			} else {
