@@ -1,4 +1,4 @@
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import { cn } from '@/lib/utils';
 import {
 	LayoutDashboard,
@@ -23,6 +23,18 @@ const sidebarItems = [
 
 export default function AdminLayout({ children, user }) {
 	const [sidebarOpen, setSidebarOpen] = useState(false);
+	const { env } = usePage().props;
+
+	const getEnvDisplay = (env) => {
+		switch (env) {
+			case 'local':
+				return 'Development';
+			case 'production':
+				return 'Production';
+			default:
+				return env.charAt(0).toUpperCase() + env.slice(1);
+		}
+	};
 
 	return (
 		<div className="flex h-screen bg-background">
@@ -46,7 +58,7 @@ export default function AdminLayout({ children, user }) {
 					<div className="flex h-16 items-center justify-between border-b px-6">
 						<Link href="/" className="flex items-center gap-2 font-semibold text-lg">
 							<DingGoLogo width="80" />
-							<span className='ml-1 -mt-[6px] text-2xl font-[950] text-gray-600'>Admin</span>
+							<span className='ml-1 -mt-[6px] text-2xl font-[950] text-gray-600'>{getEnvDisplay(env)}</span>
 						</Link>
 						<button
 							className="lg:hidden"

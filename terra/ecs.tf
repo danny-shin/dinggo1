@@ -159,7 +159,9 @@ resource "aws_ecs_task_definition" "app" {
         { name = "DB_PASSWORD", value = var.db_password },
         { name = "DINGGO_API_USER", value = var.dinggo_api_user },
         { name = "DINGGO_API_KEY", value = var.dinggo_api_key },
-        { name = "DINGGO_API_URL", value = var.dinggo_api_url }
+        { name = "DINGGO_API_URL", value = var.dinggo_api_url },
+        { name = "APP_DEPLOYMENT", value = "AWS@" },
+        { name = "APP_ENV", value = "AWS#" },
       ]
       mountPoints = [
         {
