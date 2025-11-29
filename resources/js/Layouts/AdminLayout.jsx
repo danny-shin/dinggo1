@@ -32,7 +32,8 @@ export default function AdminLayout({ children, user }) {
 			case 'production':
 				return 'Production';
 			default:
-				return env.charAt(0).toUpperCase() + env.slice(1);
+				return env
+			//return env.charAt(0).toUpperCase() + env.slice(1);
 		}
 	};
 
