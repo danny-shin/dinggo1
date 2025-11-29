@@ -17,7 +17,7 @@ services:
   php-fpm:
     build:
       context: .
-      dockerfile: ./docker/common/php-fpm/Dockerfile
+      dockerfile: ./docker/development/php-fpm/Dockerfile
       target: development
       args:
         UID: ${UID:-1000}
