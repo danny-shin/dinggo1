@@ -1,5 +1,3 @@
-# Syntax=docker/dockerfile:1
-
 # 1. Vendor Stage
 FROM composer:2.6 as vendor
 
