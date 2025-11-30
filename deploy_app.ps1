@@ -8,7 +8,7 @@ $env:AWS_PAGER=""		# NOT show -- More  --
 
 # 1. Configuration
 $REGION = "ap-southeast-2" # Must match your terra/variables.tf
-$ACCOUNT_ID = aws sts get-caller-identity --query Account --output text
+$ACCOUNT_ID = aws sts get-caller-identity --query Account --output text --no-cli-pager
 $REPO_NAME_APP = "dinggo-app"
 $REPO_NAME_NGINX = "dinggo-nginx"
 $CLUSTER_NAME = "dinggo-cluster"
@@ -31,9 +31,9 @@ Write-Host "---------------------------------------------"
 
 # 2. Check ECR Repositories & Create if Missing
 Write-Host "`n[1/6] Checking ECR Repositories..." -ForegroundColor Yellow
-aws ecr describe-repositories --repository-names $REPO_NAME_APP > $null 2>&1
+aws ecr describe-repositories --repository-names $REPO_NAME_APP --no-cli-pager > $null 2>&1
 $appRepoExists = $LASTEXITCODE -eq 0
-aws ecr describe-repositories --repository-names $REPO_NAME_NGINX > $null 2>&1
+aws ecr describe-repositories --repository-names $REPO_NAME_NGINX --no-cli-pager > $null 2>&1
 $nginxRepoExists = $LASTEXITCODE -eq 0
 
 if (-not $appRepoExists -or -not $nginxRepoExists) {
@@ -50,7 +50,7 @@ if (-not $appRepoExists -or -not $nginxRepoExists) {
 # 3. Login to ECR
 Write-Host "`n[1/6] Logging in to ECR..." -ForegroundColor Yellow
 # Use cmd /c to handle the pipe, avoiding PowerShell's UTF-16 encoding issues
-cmd /c "aws ecr get-login-password --region $REGION | docker login --username AWS --password-stdin $ECR_URL"
+cmd /c "aws ecr get-login-password --region $REGION --no-cli-pager | docker login --username AWS --password-stdin $ECR_URL"
 if ($LASTEXITCODE -ne 0) { Write-Error "Login to ECR failed!"; exit 1 }
 
 # 3. Build Docker Images
@@ -86,12 +86,12 @@ if ($LASTEXITCODE -ne 0) { Write-Error "Nginx Push (latest) failed!"; exit 1 }
 Write-Host "`n[6/6] Updating ECS Service..." -ForegroundColor Yellow
 
 # Check if Cluster exists
-aws ecs describe-clusters --clusters $CLUSTER_NAME --query "clusters[?status=='ACTIVE'].clusterName" --output text | Out-String -OutVariable clusterCheck
+aws ecs describe-clusters --clusters $CLUSTER_NAME --query "clusters[?status=='ACTIVE'].clusterName" --output text --no-cli-pager | Out-String -OutVariable clusterCheck
 # Check if Service exists
-aws ecs describe-services --cluster $CLUSTER_NAME --services $SERVICE_NAME --query "services[?status=='ACTIVE'].serviceName" --output text | Out-String -OutVariable serviceCheck
+aws ecs describe-services --cluster $CLUSTER_NAME --services $SERVICE_NAME --query "services[?status=='ACTIVE'].serviceName" --output text --no-cli-pager | Out-String -OutVariable serviceCheck
 
 if ($clusterCheck.Trim() -eq $CLUSTER_NAME -and $serviceCheck.Trim() -eq $SERVICE_NAME) {
-    aws ecs update-service --cluster $CLUSTER_NAME --service $SERVICE_NAME --task-definition dinggo-task --force-new-deployment --region $REGION
+    aws ecs update-service --cluster $CLUSTER_NAME --service $SERVICE_NAME --task-definition dinggo-task --force-new-deployment --region $REGION --no-cli-pager
     if ($LASTEXITCODE -ne 0) { Write-Error "ECS Service Update failed!"; exit 1 }
 } else {
     Write-Host "Cluster '$CLUSTER_NAME' or Service '$SERVICE_NAME' not found or inactive. Skipping update." -ForegroundColor Magenta
@@ -99,5 +99,5 @@ if ($clusterCheck.Trim() -eq $CLUSTER_NAME -and $serviceCheck.Trim() -eq $SERVIC
 }
 
 Write-Host "`nSUCCESS! Deployment triggered." -ForegroundColor Green
-# Write-Host "Monitor deployment status with:"
-# Write-Host "aws ecs describe-services --cluster $CLUSTER_NAME --services $SERVICE_NAME"
+Write-Host "Monitor deployment status with:"
+Write-Host "aws ecs describe-services --cluster $CLUSTER_NAME --services $SERVICE_NAME --no-cli-pager"

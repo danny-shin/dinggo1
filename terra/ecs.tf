@@ -166,7 +166,7 @@ resource "aws_ecs_task_definition" "app" {
         { name = "DINGGO_API_USER", value = var.dinggo_api_user },
         { name = "DINGGO_API_KEY", value = var.dinggo_api_key },
         { name = "DINGGO_API_URL", value = var.dinggo_api_url },
-        { name = "APP_ENV", value = "<AWS-20251130>" },
+        { name = "APP_ENV", value = var.app_env },
       ]
       mountPoints = [
         {

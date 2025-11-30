@@ -33,3 +33,7 @@ variable "dinggo_api_url" {
   description = "DingGo API URL"
   default     = "https://app.dev.aws.dinggo.com.au/phptest"
 }
+variable "app_env" {
+  description = "APP_ENV"
+  default     = "### AWS ###"
+}
