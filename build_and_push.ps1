@@ -1,4 +1,11 @@
 # 1. Configuration
+# "Antigravity" shell is running PowerShell Core (v7+) (which defaults to UTF-8), 
+# while VS Code is defaulting to Windows PowerShell (v5.1). uses UTF-16LE encoding for pipes by default.
+[System.Console]::InputEncoding = [System.Text.Encoding]::UTF8
+[System.Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+$OutputEncoding = [System.Text.Encoding]::UTF8
+
+# 1. Configuration
 $REGION = "ap-southeast-2" # Must match your terra/variables.tf
 $ACCOUNT_ID = aws sts get-caller-identity --query Account --output text
 $REPO_NAME_APP = "dinggo-app"
@@ -18,9 +25,25 @@ Write-Host "Repo App:   $REPO_NAME_APP"
 Write-Host "Repo Nginx: $REPO_NAME_NGINX"
 Write-Host "-------------------------------------"
 
+# # 2. Login to ECR
+# Write-Host "`n[1/5] Logging in to ECR..." -ForegroundColor Yellow
+# aws ecr get-login-password --region $REGION | docker login --username AWS --password-stdin $ECR_URL
+# if ($LASTEXITCODE -ne 0) { Write-Error "Login failed!"; exit 1 }
+# in VS-Code ERROR
+# D:\www\dinggo1\build_and_push.ps1 : Login failed!
+#     + CategoryInfo          : NotSpecified: (:) [Write-Error], WriteErrorException
+#     + FullyQualifiedErrorId : Microsoft.PowerShell.Commands.WriteErrorException,build_and_push.ps1
+
 # 2. Login to ECR
 Write-Host "`n[1/5] Logging in to ECR..." -ForegroundColor Yellow
-aws ecr get-login-password --region $REGION | docker login --username AWS --password-stdin $ECR_URL
+# Use cmd /c to handle the pipe, avoiding PowerShell's UTF-16 encoding issues
+cmd /c "aws ecr get-login-password --region $REGION | docker login --username AWS --password-stdin $ECR_URL"
+if ($LASTEXITCODE -ne 0) { Write-Error "Login to ECR failed!"; exit 1 }
+
+# Pipe the variable (converted to UTF8 explicitly) to docker
+$ECR_PASSWORD | Out-String -Stream | ForEach-Object { 
+	echo $_ | docker login --username AWS --password-stdin $ECR_URL 
+}
 if ($LASTEXITCODE -ne 0) { Write-Error "Login failed!"; exit 1 }
 
 # 3. Build Docker Images
