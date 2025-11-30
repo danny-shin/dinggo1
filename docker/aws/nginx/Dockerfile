@@ -1,5 +1,5 @@
 # 1. Build Frontend Assets
-FROM node:22-alpine as frontend
+FROM node:22-alpine AS frontend
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci

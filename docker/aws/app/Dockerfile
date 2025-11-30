@@ -1,5 +1,5 @@
 # 1. Vendor Stage
-FROM composer:2.6 as vendor
+FROM composer:2.6 AS vendor
 
 WORKDIR /app
 
@@ -18,7 +18,7 @@ COPY . .
 RUN composer dump-autoload --optimize
 
 # 2. Frontend Stage
-FROM node:22-alpine as frontend
+FROM node:22-alpine AS frontend
 
 WORKDIR /app
 
@@ -30,7 +30,7 @@ COPY .env.prod .env
 RUN npm run build
 
 # 3. Final Stage
-FROM php:8.3-fpm-alpine as final
+FROM php:8.3-fpm-alpine AS final
 
 # Install system dependencies
 RUN apk add --no-cache \
