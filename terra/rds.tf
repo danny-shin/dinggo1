@@ -12,8 +12,15 @@ resource "aws_db_instance" "main" {
   engine            = "postgres"
   engine_version    = "16.6" # Check available versions, 16 is usually fine
   instance_class    = "db.t3.micro"
-  allocated_storage = 20
+  # allocated_storage = 20
+  allocated_storage = 10 
   storage_type      = "gp2"
+
+  # in Prod, AWS runs two copies of your database simultaneously. 
+  # One in Subnet A (Primary) and one in Subnet B (Standby). 
+  # If Primary dies, AWS automatically switches to Standby. 
+  # This is physically impossible without two subnets.
+  # multi_az = true   default false
 
   db_name  = "dinggo"
   username = "dinggo"

@@ -25,5 +25,5 @@ Homestead.yaml
 Thumbs.db
 
 **/.terraform
-# **/*.tfstate
+**/*.tfstate
 **/*.tfstate.*

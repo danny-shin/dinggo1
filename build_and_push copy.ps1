@@ -9,8 +9,6 @@ $IMAGE_TAG = "v-$TIMESTAMP"
 $ECR_URL = "$ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com"
 $FULL_IMAGE_NAME_APP = "${ECR_URL}/${REPO_NAME_APP}:${IMAGE_TAG}"
 $FULL_IMAGE_NAME_NGINX = "${ECR_URL}/${REPO_NAME_NGINX}:${IMAGE_TAG}"
-$LATEST_IMAGE_NAME_APP = "${ECR_URL}/${REPO_NAME_APP}:latest"
-$LATEST_IMAGE_NAME_NGINX = "${ECR_URL}/${REPO_NAME_NGINX}:latest"
 
 Write-Host "--- Starting Build & Push Process ---" -ForegroundColor Cyan
 Write-Host "Region: $REGION"
@@ -36,21 +34,14 @@ if ($LASTEXITCODE -ne 0) { Write-Error "Nginx Build failed!"; exit 1 }
 Write-Host "`n[4/5] Tagging Images..." -ForegroundColor Yellow
 docker tag "${REPO_NAME_APP}:latest" $FULL_IMAGE_NAME_APP
 docker tag "${REPO_NAME_NGINX}:latest" $FULL_IMAGE_NAME_NGINX
-# Also tag as latest for ECR
-docker tag "${REPO_NAME_APP}:latest" $LATEST_IMAGE_NAME_APP
-docker tag "${REPO_NAME_NGINX}:latest" $LATEST_IMAGE_NAME_NGINX
 
 # 5. Push Images
 Write-Host "`n[5/5] Pushing to ECR..." -ForegroundColor Yellow
 docker push $FULL_IMAGE_NAME_APP
 if ($LASTEXITCODE -ne 0) { Write-Error "App Push failed!"; exit 1 }
-docker push $LATEST_IMAGE_NAME_APP
-if ($LASTEXITCODE -ne 0) { Write-Error "App Push (latest) failed!"; exit 1 }
 
 docker push $FULL_IMAGE_NAME_NGINX
 if ($LASTEXITCODE -ne 0) { Write-Error "Nginx Push failed!"; exit 1 }
-docker push $LATEST_IMAGE_NAME_NGINX
-if ($LASTEXITCODE -ne 0) { Write-Error "Nginx Push (latest) failed!"; exit 1 }
 
 Write-Host "`nSUCCESS!" -ForegroundColor Green
 Write-Host "App Image:   $FULL_IMAGE_NAME_APP" -ForegroundColor Green
