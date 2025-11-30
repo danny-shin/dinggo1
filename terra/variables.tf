@@ -8,15 +8,25 @@ variable "project_name" {
   default     = "dinggo"
 }
 
+variable "vpc_cidr" {
+  description = "VPC CIDR Block"
+  default     = "10.0.0.0/16"
+}
+
+variable "db_name" {
+  description = "Database Name"
+  default     = "dinggo"
+}
+
+variable "db_username" {
+  description = "Database Username"
+  default     = "dinggo"
+}
+
 variable "db_password" {
   description = "Database Password"
   type        = string
   sensitive   = true
-}
-
-variable "vpc_cidr" {
-  description = "VPC CIDR Block"
-  default     = "10.0.0.0/16"
 }
 
 variable "dinggo_api_user" {
