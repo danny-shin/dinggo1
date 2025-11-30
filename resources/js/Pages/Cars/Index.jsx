@@ -29,7 +29,7 @@ export default function Index({ auth, cars, filters }) {
 			<div className="space-y-6">
 				<div className="flex items-center justify-between">
 					<div>
-						<h2 className="text-3xl font-bold tracking-tight">Cars 20251130.1505</h2>
+						<h2 className="text-3xl font-bold tracking-tight">Cars 2025-11-30 18:16</h2>
 						<p className="text-muted-foreground">
 							Manage cars in the system
 						</p>

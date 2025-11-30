@@ -35,5 +35,5 @@ variable "dinggo_api_url" {
 }
 variable "app_env" {
   description = "APP_ENV"
-  default     = "### AWS ###"
+  default     = "<AWS>"
 }
