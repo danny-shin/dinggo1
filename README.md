@@ -190,7 +190,7 @@ docker compose -f .\compose.dev.yml exec workspace php artisan sync:api-data
 - If you need regular data synchronization, you can register it in crontab and use it.
 - If the model's properties have changed, save to the table, otherwise, do not save.
 
-<h3 id='browse-localhost'> 2.1.5 browse http://localhost</h3>
+<h3 id='browse-localhost'> 2.1.5 Browse http://localhost</h3>
 
 - login
   - email: admin1@example.com or admin2@example.com
@@ -218,13 +218,17 @@ php artisan db:seed --force   # add 2 users: admin1@example.com, admin2@example.
 php artisan sync:api-data     # data sync (cars & quotes)
 ```
 
-### [2.2.2 php artisan migrate](#artisan-migrate)
+- [php artisan migrate](#artisan-migrate)
+- [php artisan db:seed](#artisan-db-seed)
+- [php artisan sync:api-data](#artisan-sync-api-data)
 
-### [2.2.3 php artisan db:seed](#artisan-db-seed)
+### 2.2.2 Browse http://localhost
 
-### [2.2.4 php artisan sync:api-data](#artisan-sync-api-data)
-
-### [2.2.5 browse http://localhost](#browse-localhost)
+- login
+  - email: admin1@example.com or admin2@example.com
+  - password: 123456789
+- redirect to /cars
+  ![Prod Cars](./images/prod-cars.png)
 
 ---
 
@@ -253,7 +257,7 @@ Default output format [None]:
 powershell -ExecutionPolicy Bypass -File deploy_app.ps1
 ```
 
-#### 2.3.3 Checking ECR repositories exists (deploy_app.ps1)
+### 2.3.3 Checking ECR repositories exists (deploy_app.ps1)
 
 - checking dinggo-app and dinggo-nginx exists in AWS ECR
 - if NOT exists, init terraform and create ECR repositories
@@ -264,7 +268,7 @@ terraform apply -target="aws_ecr_repository.app" -auto-approve
 terraform apply -target="aws_ecr_repository.nginx" -auto-approve
 ```
 
-#### 2.3.4 Login, Build & Push Images to ECR (deploy_app.ps1)
+### 2.3.4 Login, Build & Push Images to ECR (deploy_app.ps1)
 
 - dinggo-app & dinggo-nginx images build & push to ECR
 
@@ -279,7 +283,7 @@ docker push $LATEST_IMAGE_NAME_APP
 docker push $LATEST_IMAGE_NAME_NGINX
 ```
 
-#### 2.3.5 Check & Update ECS Service, Create/Update Infrastructure (deploy_app.ps1)
+### 2.3.5 Check & Update ECS Service, Create/Update Infrastructure (deploy_app.ps1)
 
 1. check dinggo-cluster & dinggo-service exists in AWS ECS
 2. if exists, update ECS service
@@ -297,9 +301,26 @@ terraform apply -auto-approve
 - "terraform apply" automatically checked the modified files and apply the changes
 
 4. Display the app url
+- The URL is displayed at the end of the output.
+```sh
+Outputs:
+
+ecr_repository_url = "940663608218.dkr.ecr.ap-southeast-2.amazonaws.com/dinggo-app"
+ecs_cluster_name = "dinggo-cluster"
+nginx_repository_url = "940663608218.dkr.ecr.ap-southeast-2.amazonaws.com/dinggo-nginx"
+rds_endpoint = "dinggo-db.c5eqwa8u0bfp.ap-southeast-2.rds.amazonaws.com"
+
+SUCCESS! Deployment triggered.
+Monitor deployment status with:
+aws ecs describe-services --cluster dinggo-cluster --services dinggo-service --no-cli-pager
+
+App Public IP: 54.253.140.245
+URL: http://54.253.140.245
+PS D:\www\dinggo1> 
+```
 
 ### 2.3.6 Browse the url
-
+- URL: http://54.253.140.245
 - login
   - email: admin1@example.com or admin2@example.com
   - password: 123456789
