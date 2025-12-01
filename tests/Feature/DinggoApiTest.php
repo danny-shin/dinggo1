@@ -28,9 +28,9 @@ class DinggoApiTest extends TestCase
 		$response = Http::acceptJson()->get("{$this->baseUrl}/test");
 
 		// Debug output if request fails
-		if ($response->failed()) {
-			dump($response->body());
-		}
+		// if ($response->failed()) {
+		// 	dump($response->body());
+		// }
 
 		$this->assertEquals(200, $response->status());
 		$this->assertEquals('ok', $response->json('success'));
@@ -83,7 +83,7 @@ class DinggoApiTest extends TestCase
 
 		// Debug output if it fails
 		// if ($response->failed()) {
-		dump($response->body());
+		// dump($response->body());
 		// }
 
 		$this->assertEquals(200, $response->status());

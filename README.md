@@ -183,8 +183,12 @@ docker compose -f .\compose.dev.yml exec workspace php artisan sync:api-data
 - If the model's properties have changed, save to the table, otherwise, do not save.
 
 <h3 id='browse-localhost'> 2.1.5 browse http://localhost</h3>
-- email: admin1@example.com or admin2@example.com
-- password: 123456789
+
+- login
+  - email: admin1@example.com or admin2@example.com
+  - password: 123456789
+- redirect to /cars
+  ![Dev Cars](./docs/dev-cars.png)
 
 ---
 
@@ -241,7 +245,7 @@ Default output format [None]:
 powershell -ExecutionPolicy Bypass -File deploy_app.ps1
 ```
 
-#### 2.3.2.1 Checking ECR repositories exists
+#### 2.3.3 Checking ECR repositories exists (deploy_app.ps1)
 
 - checking dinggo-app and dinggo-nginx exists in AWS ECR
 - if NOT exists, init terraform and create ECR repositories
@@ -252,7 +256,7 @@ terraform apply -target="aws_ecr_repository.app" -auto-approve
 terraform apply -target="aws_ecr_repository.nginx" -auto-approve
 ```
 
-#### 2.3.2.2 Login, Build & Push Images to ECR
+#### 2.3.4 Login, Build & Push Images to ECR (deploy_app.ps1)
 
 - dinggo-app & dinggo-nginx images build & push to ECR
 
@@ -267,15 +271,40 @@ docker push $LATEST_IMAGE_NAME_APP
 docker push $LATEST_IMAGE_NAME_NGINX
 ```
 
-#### 2.3.2.2 Updating ECS Service
+#### 2.3.5 Check & Update ECS Service, Create/Update Infrastructure (deploy_app.ps1)
+
+1. check dinggo-cluster & dinggo-service exists in AWS ECS
+2. if exists, update ECS service
+
+```sh
+aws ecs update-service --cluster $CLUSTER_NAME --service $SERVICE_NAME --task-definition dinggo-task --force-new-deployment --region $REGION --no-cli-pager
+```
+
+3. Create/Update Infrastructure
+
+```sh
+terraform apply -auto-approve
+```
+
+- "terraform apply" automatically checked the modified files and apply the changes
+
+4. Display the app url
+
+### 2.3.6 Browse the url
+
+- login
+  - email: admin1@example.com or admin2@example.com
+  - password: 123456789
+- redirect to /cars
+  ![AWS Cars](./docs/aws-cars.png)
 
 ---
 
-# Unit Testing (Only in Development/Testing Environments)
+# 3. [Dev] Unit Testing
 
 - Laravel testing is designed to run in development or testing environments (and blocked from running in production) primarily for safety and data integrity.
 
-## 1.tests\Feature\DinggoApiTest.php
+## 3.1 tests\Feature\DinggoApiTest.php
 
 - 4 endpoints test
   1. https://app.dev.aws.dinggo.com.au/phptest/test
@@ -283,24 +312,30 @@ docker push $LATEST_IMAGE_NAME_NGINX
   3. https://app.dev.aws.dinggo.com.au/phptest/cars
   4. https://app.dev.aws.dinggo.com.au/phptest/quotes
 
-## 2.tests\Feature\SyncApiDataTest.php(sync:api-data)
+## 3.2 tests\Feature\SyncApiDataTest.php(sync:api-data)
 
 - tests correctly fetches car and quote data and save to the local DB
 - verifies data integrity by confirming that new records are inserted correctly and existing records are updated (not duplicated)
 
-## 3.tests\Feature\CarTest.php
+## 3.3 tests\Feature\CarTest.php
 
 - create mock user & data for the test
 - test the index page lists cars and sorts them correctly.
 - test the detail page shows the correct car and successfully eager-loads its associated quotes.
-- test
 
-## Run tests
+## 3.4 Run tests
 
 - Run all tests
-  - [Dev] docker compose -f .\compose.prod.yml exec workspace php artisan test
+
+```sh
+docker compose -f .\compose.prod.yml exec workspace php artisan test
+```
+
 - Run one test
-  - [Dev] docker compose -f compose.dev.yml exec workspace php artisan test tests/Feature/CarTest.php
+
+```sh
+docker compose -f compose.dev.yml exec workspace php artisan test tests/Feature/CarTest.php
+```
 
 ---
 
