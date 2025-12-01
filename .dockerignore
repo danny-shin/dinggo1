@@ -20,5 +20,5 @@
 !/storage/logs/.gitignore
 # .env
 # .env.*
-!.env.prod
-!.env.dev
+# !.env.prod
+# !.env.dev

@@ -30,7 +30,6 @@ services:
         XDEBUG_LOG_LEVEL: 0
     env_file:
       - .env.dev
-    user: "${UID:-1000}:${GID:-1000}"
     volumes:
       - ./:/var/www
     networks:

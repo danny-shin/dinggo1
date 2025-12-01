@@ -151,6 +151,14 @@ docker compose -f .\compose.prod.yml up -d --build
 
 - 👉 If the page doesn't load when you browse to http://localhost, try refreshing/pressing F5 (NOT Ctrl+F5), as it's especially slow in dev mode.
 
+- When Update Program Source: clear caches & restart containers
+
+```sh
+docker compose -f .\compose.dev.yml exec workspace php artisan optimize:clear
+docker compose -f .\compose.dev.yml exec workspace php artisan clear-compiled
+docker compose -f .\compose.dev.yml restart
+```
+
 ### 2.1.1 Manual migration, seeder execution, and data synchronization
 
 ```sh
@@ -325,11 +333,21 @@ terraform apply -auto-approve
 
 ## 3.4 Run tests
 
+- 👉 after run tests you need to run below:
+  - some tests use RefreshDatabase trait and this make Laravel automatically wipes the database clean (using `migrate:fresh`) to ensure the test starts with a blank slate.
+
+```sh
+docker compose -f .\compose.dev.yml exec workspace php artisan db:seed
+#  optional docker compose -f .\compose.dev.yml exec workspace php artisan sync:api-data
+```
+
 - Run all tests
 
 ```sh
 docker compose -f .\compose.prod.yml exec workspace php artisan test
 ```
+
+![Dev Artisan Test](./docs/dev-artisan-test.png)
 
 - Run one test
 
@@ -339,61 +357,92 @@ docker compose -f compose.dev.yml exec workspace php artisan test tests/Feature/
 
 ---
 
-# Appendix
+# 4. DB Schema
 
-## Sync Api Data: cars & quotes fetch and save
+- [Dev] Create dinggo DB in PosgreSQL
 
-- [Prod] docker compose -f .\compose.prod.yml exec app php artisan sync:api-data
-- [Dev] docker compose -f .\compose.dev.yml exec workspace php artisan sync:api-data
-  - can add this to cron-tab if needed.
+## Migration Files
 
-```sh
-Starting sync process from: https://app.dev.aws.dinggo.com.au/phptest
-Fetching Cars API...
- 3/3 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓] 100%
-Sync Statistics:
-+--------+--------------+----------------+-------------------+-----------+
-| Table  | Read (Total) | Inserted (New) | Updated (Changed) | Unchanged |
-+--------+--------------+----------------+-------------------+-----------+
-| Cars   | 3            | 3              | 0                 | 0         |
-| Quotes | 6            | 6              | 0                 | 0         |
-+--------+--------------+----------------+-------------------+-----------+
+- database\migrations\2025_11_26_155648_create_cars_table.php
+
+```php
+  Schema::create('cars', function (Blueprint $table) {
+    // Standard Primary Key
+    $table->id();
+    // Data columns
+    $table->string('license_plate');
+    $table->string('license_state');
+    $table->string('vin');
+    $table->string('year');
+    $table->string('colour');
+    $table->string('make');
+    $table->string('model');
+    $table->timestamps();
+    // Enforce Uniqueness on the combination of Plate + State
+    $table->unique(['license_plate', 'license_state']);
+  });
 ```
 
-- OR browse: http://localhost/sync-data
-  - click "Sync Data" button
+- database\migrations\2025_11_26_155727_create_quotes_table.php
 
-## docker commands
+```php
+    Schema::create('quotes', function (Blueprint $table) {
+      $table->id();
+      // Foreign Key linking to cars.id
+      // This replaces storing license_plate/state strings here
+      $table->foreignId('car_id')
+        ->constrained('cars')
+        ->onDelete('cascade');
 
-```sh
-docker exec -it dinggo1-workspace-1 bash
-docker exec -it dinggo1-app-1 sh
-docker compose -f .\compose.dev.yml exec workspace bash -c "php artisan optimize:clear"
-docker compose -f .\compose.dev.yml restart
+      $table->decimal('price', 10, 2);
+      $table->string('repairer');
+      $table->text('overview_of_work');
+      $table->timestamps();
 
-# clear cash ...
-docker compose -f .\compose.dev.yml exec workspace php artisan optimize:clear
-docker compose -f .\compose.dev.yml exec workspace php artisan clear-compiled
-docker compose -f compose.dev.yml restart php-fpm workspace
-
-docker compose -f .\compose.prod.yml exec app php artisan optimize:clear
-docker compose -f .\compose.prod.yml exec app php artisan clear-compiled
-docker compose -f compose.prod.yml restart web app
-
-# docker compose -f .\compose.dev.yml exec workspace npm run dev
-docker compose -f compose.dev.yml up -d --build workspace
-
-# Docker clean
-docker compose -f .\compose.dev.yml down
-docker system prune -a
-docker volume prune
-docker network prune
+      // Prevent duplicate quotes from the same repairer for the same car
+      $table->unique(['car_id', 'repairer']);
+    });
 ```
 
-in prod
-/var/www/html # php artisan test
+## php artisan migrate
 
-ERROR Command "test" is not defined. Did you mean one of these?
+- run all migration files(DDL statements) in database\migrations\
+- typically used when creating or altering tables
 
-⇂ make:test
-⇂ schedule:test
+## Local DingGo DB
+
+![local-debeaver-dingo](./Local%20pgsql%20debeaver%20dinggo.png)
+
+## Schema from DB
+
+```sql
+CREATE TABLE public.cars (
+  id bigserial NOT NULL,
+  license_plate varchar(255) NOT NULL,
+  license_state varchar(255) NOT NULL,
+  vin varchar(255) NOT NULL,
+  "year" varchar(255) NOT NULL,
+  colour varchar(255) NOT NULL,
+  make varchar(255) NOT NULL,
+  model varchar(255) NOT NULL,
+  created_at timestamp(0) NULL,
+  updated_at timestamp(0) NULL,
+  CONSTRAINT cars_license_plate_license_state_unique UNIQUE (license_plate, license_state),
+  CONSTRAINT cars_pkey PRIMARY KEY (id)
+);
+
+CREATE TABLE public."quotes" (
+  id bigserial NOT NULL,
+  car_id int8 NOT NULL,
+  price numeric(10, 2) NOT NULL,
+  repairer varchar(255) NOT NULL,
+  overview_of_work text NOT NULL,
+  created_at timestamp(0) NULL,
+  updated_at timestamp(0) NULL,
+  CONSTRAINT quotes_car_id_repairer_unique UNIQUE (car_id, repairer),
+  CONSTRAINT quotes_pkey PRIMARY KEY (id)
+);
+
+-- public."quotes" foreign keys
+ALTER TABLE public."quotes" ADD CONSTRAINT quotes_car_id_foreign FOREIGN KEY (car_id) REFERENCES public.cars(id) ON DELETE CASCADE;
+```
