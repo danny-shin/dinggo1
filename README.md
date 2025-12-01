@@ -196,7 +196,7 @@ docker compose -f .\compose.dev.yml exec workspace php artisan sync:api-data
   - email: admin1@example.com or admin2@example.com
   - password: 123456789
 - redirect to /cars
-  ![Dev Cars](./docs/dev-cars.png)
+  ![Dev Cars](./images/dev-cars.png)
 
 ---
 
@@ -304,7 +304,7 @@ terraform apply -auto-approve
   - email: admin1@example.com or admin2@example.com
   - password: 123456789
 - redirect to /cars
-  ![AWS Cars](./docs/aws-cars.png)
+  ![AWS Cars](./images/aws-cars.png)
 
 ---
 
@@ -347,7 +347,7 @@ docker compose -f .\compose.dev.yml exec workspace php artisan db:seed
 docker compose -f .\compose.prod.yml exec workspace php artisan test
 ```
 
-![Dev Artisan Test](./docs/dev-artisan-test.png)
+![Dev Artisan Test](./images/dev-artisan-test.png)
 
 - Run one test
 
@@ -361,7 +361,7 @@ docker compose -f compose.dev.yml exec workspace php artisan test tests/Feature/
 
 - [Dev] Create dinggo DB in PosgreSQL
 
-## Migration Files
+## 4.1 Migration Files
 
 - database\migrations\2025_11_26_155648_create_cars_table.php
 
@@ -404,16 +404,16 @@ docker compose -f compose.dev.yml exec workspace php artisan test tests/Feature/
     });
 ```
 
-## php artisan migrate
+## 4.2 php artisan migrate
 
 - run all migration files(DDL statements) in database\migrations\
 - typically used when creating or altering tables
 
-## Local DingGo DB
+## 4.3 Local DingGo DB
 
-![local-debeaver-dingo](./Local%20pgsql%20debeaver%20dinggo.png)
+![local-debeaver-dingo](./images/local_debeaver_dinggo.png)
 
-## Schema from DB
+## 4.4 Schema from DB
 
 ```sql
 CREATE TABLE public.cars (
