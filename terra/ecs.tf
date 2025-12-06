@@ -139,15 +139,9 @@ resource "aws_ecs_task_definition" "app" {
   container_definitions = jsonencode([
     {
       name      = "app"
-      # image     = "940663608218.dkr.ecr.ap-southeast-2.amazonaws.com/dinggo-app:v-20251129-1647"
       image     = "${aws_ecr_repository.app.repository_url}:latest"
-    # terraform.tfstate 
-    # "ecr_repository_url": {
-    #   "value": "940663608218.dkr.ecr.ap-southeast-2.amazonaws.com/dinggo-app",
-    #   "type": "string"
-    # },
-      cpu       = 128
-      memory    = 256
+      cpu       = 128 // 1024 = 1 vCPU
+      memory    = 256 // 1024 = 1 GB
       essential = true
       environment = [
         { name = "DB_HOST", value = aws_db_instance.main.address },
